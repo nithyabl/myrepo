@@ -16,12 +16,6 @@ jobs:
       - name: Setup MSBuild path
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
-
-      - name: Restore NuGet packages
-        run: nuget restore
-
       - name: Build
         run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
 
@@ -37,7 +31,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -53,4 +47,4 @@ jobs:
           package: ${{ github.workspace }}/published
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4B1A41542B4B4A199BA0B8FBEF159C9E }}
 
- 
+  
